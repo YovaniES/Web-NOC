@@ -98,6 +98,18 @@ export class ModalEventoComponent implements OnInit {
     })
    }
 
+   setearTipoEvento(): boolean{
+    let esTipoIncidencia = false;
+
+    const tipoIncidencia = this.listTipoIncidencia.find(tipo => tipo.valor_texto_1.toUpperCase() == 'INCIDENCIA');
+    if (tipoIncidencia ) {
+      esTipoIncidencia = tipoIncidencia.id_correlativo == this.eventoForm.controls['tipo_evento'].value;
+    }
+    console.log('TIPO:INC', tipoIncidencia, esTipoIncidencia);
+
+    return esTipoIncidencia;
+   }
+
   crearOactualizarEvento() {
     this.spinner.show();
 

@@ -29,7 +29,7 @@
 
             <div class="col-sm-3 cli-form-element">
               <label>Tipo de evento *</label>
-              <select class="cli-input-white" formControlName="tipo_evento">
+              <select class="cli-input-white" formControlName="tipo_evento" (ngModelChange)="setearTipoEvento()">
                 <option [value]="0" disabled>- Seleccione -</option>
                 <option [value]="tipo.id_correlativo" *ngFor="let tipo of listTipoIncidencia">{{ tipo.valor_texto_1 }}</option>
               </select>
@@ -162,7 +162,8 @@
 
       </div> -->
 
-      <div *ngIf="DATA_EVENTO && DATA_EVENTO.tipo_evento =='Incidencia'">
+      <!-- <div *ngIf="DATA_EVENTO && DATA_EVENTO.tipo_evento =='Incidencia'"> -->
+        <div *ngIf="setearTipoEvento()">
         <div class="pr-subtitle mt-1">Incidencias</div>
         <div class="pr-section mb-3">
           <div class="pr-module-container">
@@ -248,7 +249,7 @@
                   class="form-control"
                   style="background-image: none; border-color: #a5a4a4; font-size: 14px;"
                   rows="3"
-                  placeholder="Describa alguna Motivo del evento"
+                  placeholder="Describa algún Motivo del evento"
                   formControlName="motivo_notas">
                 </textarea>
               </div>
@@ -259,7 +260,7 @@
                   class="form-control"
                   style="background-image: none; border-color: #a5a4a4; font-size: 14px;"
                   rows="3"
-                  placeholder="Describa alguna Comentario del evento"
+                  placeholder="Describa algún Comentario del evento"
                   formControlName="comentarios">
                 </textarea>
               </div>
