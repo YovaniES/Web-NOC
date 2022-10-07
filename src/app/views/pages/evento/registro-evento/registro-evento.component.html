@@ -135,13 +135,13 @@
                 </div>
               </td>
               <td class="w150"> {{ evento.cod_evento }}</td>
-              <td >{{ evento.codigo_ticket_generado }}</td>
+              <td >{{ evento.codigo_ticket_generado? evento.codigo_ticket_generado: '-' }}</td>
               <td>{{ evento.tipo_evento | firstCapital }}</td>
               <td>{{ evento.estado | uppercase }}</td>
               <td>{{ evento.hora_inicio | uppercase}}</td>
               <td>{{ evento.hora_fin | uppercase}}</td>
-              <td>{{ evento.estado_ticket }}</td>
-              <td class="w100">{{ evento.area_responsable }}</td>
+              <td>{{ evento.estado_ticket? evento.estado_ticket: '-' }}</td>
+              <td class="w100">{{ evento.area_responsable? evento.area_responsable : '-' }}</td>
               <td class="w100">{{ evento.modonotificacion }}</td>
               <td class="w100">{{ evento.usuario_registro }}</td>
               <td class="w100">{{ evento.fecha_creacion  }}</td>

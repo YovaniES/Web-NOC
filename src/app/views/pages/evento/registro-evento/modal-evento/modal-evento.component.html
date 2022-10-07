@@ -82,7 +82,7 @@
             </div>
 
             <div class="col-sm-3 cli-form-element">
-              <label>Servicios afectados</label>
+              <label>Servicios afectados *</label>
               <input
                 type="text"
                 class="form-control cli-input-white"
@@ -100,7 +100,7 @@
             </div>
 
             <div class="col-sm-3 cli-form-element">
-              <label>Fecha Inicio</label>
+              <label>Fecha Inicio *</label>
               <input type="date"
                   class="form-control"
                   formControlName="fecha_inicio"/>
@@ -131,7 +131,7 @@
             </div>
 
             <div class="col-sm-3 cli-form-element">
-              <label>Notificado a:</label>
+              <label>Notificado a *:</label>
               <input
                 type="text"
                 class="form-control cli-input-white"
@@ -158,11 +158,6 @@
       </div>
 
       <!-- INCIDENCIAS ------------------------------------------------------------------------->
-      <!-- <div *ngIf="DATA_EVENTO && DATA_EVENTO.evForm.controls['Incidencia'].value">
-
-      </div> -->
-
-      <!-- <div *ngIf="DATA_EVENTO && DATA_EVENTO.tipo_evento =='Incidencia'"> -->
         <div *ngIf="setearTipoEvento()">
         <div class="pr-subtitle mt-1">Incidencias</div>
         <div class="pr-section mb-3">
@@ -197,7 +192,7 @@
             <div class="col-sm-3 cli-form-element">
               <label>Área responsable *</label>
               <select class="cli-input-white" formControlName="area_responsable">
-                <option [value]="0" disabled>- Seleccione -</option>
+                <option [value]="0">- Seleccione -</option>
                 <option [value]="area.id_correlativo" *ngFor="let area of listAreaResponsable">{{ area.valor_texto_1 }}</option>
               </select>
               <small class="text-alert" *ngIf="campoNoValido('area_responsable')">* Ingrese el Área es obligatorio</small>
@@ -217,7 +212,18 @@
                   formControlName="h_solucion"/>
             </div>
 
-            <div class="col-sm-3 cli-form-element">
+              <div class="col-sm-6 cli-form-element">
+                <label>Medidas correctivas</label>
+                <textarea
+                  class="form-control"
+                  style="background-image: none; border-color: #a5a4a4; font-size: 14px;"
+                  rows="1"
+                  placeholder="Describa alguna medida correctiva de la Incidencia..."
+                  formControlName="medidas_correctivas">
+                </textarea>
+              </div>
+
+            <!-- <div class="col-sm-3 cli-form-element">
               <label>PBI</label>
               <input
                 type="text"
@@ -231,7 +237,7 @@
                 type="text"
                 class="form-control cli-input-white"
                 formControlName="eta_pbi"/>
-            </div>
+            </div> -->
             </div>
           </div>
         </div>

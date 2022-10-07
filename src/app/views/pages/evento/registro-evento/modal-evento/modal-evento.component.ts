@@ -71,8 +71,8 @@ export class ModalEventoComponent implements OnInit {
      descripcion      : ['', [Validators.required]],
      estado           : ['', [Validators.required]],
      motivo           : ['', [Validators.required]],
-     aplicacion       : ['', ],
-     servicios        : ['', ],
+     aplicacion       : ['', [Validators.required] ],
+     servicios        : ['', [Validators.required]],
      h_deteccion      : ['', ],
      h_inicio         : ['', ],
      fecha_inicio     : ['', [Validators.required]],
@@ -84,8 +84,8 @@ export class ModalEventoComponent implements OnInit {
     /* -----Incidencias------------ */
      ticket_generado  : [''],
      h_generacion     : [''],
-     estado_ticket    : [''],
-     area_responsable : [''],
+     estado_ticket    : [ 1 ],
+     area_responsable : [ 1 ],
      fecha_resolucion : [''],
      h_solucion       : [''],
      pbi              : [''],
@@ -93,6 +93,7 @@ export class ModalEventoComponent implements OnInit {
     /* -----motivos-comentarios----- */
      motivo_notas     : [''],
      comentarios      : [''],
+     medidas_correctivas: [''],
     })
    }
 
@@ -214,7 +215,7 @@ export class ModalEventoComponent implements OnInit {
           p_pbi                    : formValues.pbi ,
           p_eta_pbi                : formValues.eta_pbi ,
           p_comentariosgenerales   : formValues.comentarios ,
-          p_medidas_correctivas    : '' ,
+          p_medidas_correctivas    : formValues.medidas_correctivas ,
           p_notas                  : formValues.motivo_notas ,
           p_fecha_actualizacion    : '' ,
           p_user_actualizacion     : this.userID ,
@@ -250,29 +251,30 @@ export class ModalEventoComponent implements OnInit {
   cargarEventoByID(){
     if (this.DATA_EVENTO) {
     this.actionBtn = 'Actualizar'
-      this.eventoForm.controls['cod_evento'       ].setValue(this.DATA_EVENTO.cod_evento);
-      this.eventoForm.controls['tipo_evento'      ].setValue(this.DATA_EVENTO.id_tipo_evento);
-      this.eventoForm.controls['prioridad'        ].setValue(this.DATA_EVENTO.id_prioridad);
-      this.eventoForm.controls['descripcion'      ].setValue(this.DATA_EVENTO.descripcion);
-      this.eventoForm.controls['estado'           ].setValue(this.DATA_EVENTO.id_estado);
-      this.eventoForm.controls['motivo'           ].setValue(this.DATA_EVENTO.id_motivo);
-      this.eventoForm.controls['aplicacion'       ].setValue(this.DATA_EVENTO.id_aplicacion );
-      this.eventoForm.controls['servicios'        ].setValue(this.DATA_EVENTO.cantidad );
-      this.eventoForm.controls['h_deteccion'      ].setValue(this.DATA_EVENTO.hora_deteccion);
-      this.eventoForm.controls['h_inicio'         ].setValue(this.DATA_EVENTO.hora_inicio);
-      this.eventoForm.controls['modo_notificacion'].setValue(this.DATA_EVENTO.id_modonotificacion);
-      this.eventoForm.controls['h_notificacion'   ].setValue(this.DATA_EVENTO.hora_notificacion);
-      this.eventoForm.controls['destinatario'     ].setValue(this.DATA_EVENTO.destinatario );
-      this.eventoForm.controls['h_fin'            ].setValue(this.DATA_EVENTO.hora_fin);
-      this.eventoForm.controls['ticket_generado'  ].setValue(this.DATA_EVENTO.codigo_ticket_generado);
-      this.eventoForm.controls['h_generacion'     ].setValue(this.DATA_EVENTO.hora_generacion);
-      this.eventoForm.controls['estado_ticket'    ].setValue(this.DATA_EVENTO.id_estadoticket);
-      this.eventoForm.controls['area_responsable' ].setValue(this.DATA_EVENTO.id_area_responsable);
-      this.eventoForm.controls['h_solucion'       ].setValue(this.DATA_EVENTO.hora_resolucion);
-      this.eventoForm.controls['pbi'              ].setValue(this.DATA_EVENTO.pbi );
-      this.eventoForm.controls['eta_pbi'          ].setValue(this.DATA_EVENTO.eta_pbi);
-      this.eventoForm.controls['motivo_notas'     ].setValue(this.DATA_EVENTO.notas );
-      this.eventoForm.controls['comentarios'      ].setValue(this.DATA_EVENTO.comentariosgenerales);
+      this.eventoForm.controls['cod_evento'         ].setValue(this.DATA_EVENTO.cod_evento);
+      this.eventoForm.controls['tipo_evento'        ].setValue(this.DATA_EVENTO.id_tipo_evento);
+      this.eventoForm.controls['prioridad'          ].setValue(this.DATA_EVENTO.id_prioridad);
+      this.eventoForm.controls['descripcion'        ].setValue(this.DATA_EVENTO.descripcion);
+      this.eventoForm.controls['estado'             ].setValue(this.DATA_EVENTO.id_estado);
+      this.eventoForm.controls['motivo'             ].setValue(this.DATA_EVENTO.id_motivo);
+      this.eventoForm.controls['aplicacion'         ].setValue(this.DATA_EVENTO.id_aplicacion );
+      this.eventoForm.controls['servicios'          ].setValue(this.DATA_EVENTO.cantidad );
+      this.eventoForm.controls['h_deteccion'        ].setValue(this.DATA_EVENTO.hora_deteccion);
+      this.eventoForm.controls['h_inicio'           ].setValue(this.DATA_EVENTO.hora_inicio);
+      this.eventoForm.controls['modo_notificacion'  ].setValue(this.DATA_EVENTO.id_modonotificacion);
+      this.eventoForm.controls['h_notificacion'     ].setValue(this.DATA_EVENTO.hora_notificacion);
+      this.eventoForm.controls['destinatario'       ].setValue(this.DATA_EVENTO.destinatario );
+      this.eventoForm.controls['h_fin'              ].setValue(this.DATA_EVENTO.hora_fin);
+      this.eventoForm.controls['ticket_generado'    ].setValue(this.DATA_EVENTO.codigo_ticket_generado);
+      this.eventoForm.controls['h_generacion'       ].setValue(this.DATA_EVENTO.hora_generacion);
+      this.eventoForm.controls['estado_ticket'      ].setValue(this.DATA_EVENTO.id_estadoticket);
+      this.eventoForm.controls['area_responsable'   ].setValue(this.DATA_EVENTO.id_area_responsable);
+      this.eventoForm.controls['h_solucion'         ].setValue(this.DATA_EVENTO.hora_resolucion);
+      this.eventoForm.controls['pbi'                ].setValue(this.DATA_EVENTO.pbi );
+      this.eventoForm.controls['eta_pbi'            ].setValue(this.DATA_EVENTO.eta_pbi);
+      this.eventoForm.controls['motivo_notas'       ].setValue(this.DATA_EVENTO.notas );
+      this.eventoForm.controls['comentarios'        ].setValue(this.DATA_EVENTO.comentariosgenerales);
+      this.eventoForm.controls['medidas_correctivas'].setValue(this.DATA_EVENTO.medidas_correctivas);
 
       if (this.DATA_EVENTO.f_fin) {
         let fecha_x = this.DATA_EVENTO.f_fin
@@ -429,22 +431,3 @@ export class ModalEventoComponent implements OnInit {
   }
 
 }
-
-
-  // validarIfIsGestor(){
-  //   if (!this.authService.esUsuarioGestor()) {
-  //     this.iniciativaEditForm.controls['estado'].disable()
-  //     this.iniciativaEditForm.controls['responsable'].disable()
-  //   }
-  // }
-
-
-  // valueChanges(){
-  //   this.eventoForm.get('modelo')?.valueChanges.subscribe((valor: string) => {
-  //     this.eventoForm.patchValue( {modelo: valor.toUpperCase()}, {emitEvent: false});
-  //   });
-
-  //   this.eventoForm.get('serie')?.valueChanges.subscribe((valor: string) => {
-  //     this.eventoForm.patchValue( {serie: valor.toUpperCase()}, {emitEvent: false});
-  //   })
-  // }
