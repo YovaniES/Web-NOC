@@ -1,0 +1,819 @@
+[{
+  "id": 1,
+  "type": 1,
+  "description": "get registro audio",
+  "sql": "
+  select r.id,
+  tipoReg.valor_texto_1 tipoRegistro,
+  canal.valor_texto_1 canal,
+  proveedor.valor_texto_1 proveedor,
+  producto.valor_texto_1 producto,
+  campana.valor_texto_1 campana,
+  segmento.valor_texto_1 segmento,
+  r.fecha_registro_inicio fechaRegistro,
+  r.fecha_llamada fechaLlamada,
+  concat(u.nombre, ' ', u.apellido) as monitor,
+  estado.valor_texto_1 estado,
+  r.tmau,
+  r.grabacion_id grabacionId,
+  r.dimensionado,
+  r.telefono_peticion telefonoPeticion,
+  cluster.valor_texto_1 tipoCluster,
+  r.producto_audio productoAudio,
+  r.producto_base productoBase,
+  r.tmo2,
+  gestion.valor_texto_1 tipoGestion,
+  r.data_unico_cliente dataUnicoCliente,
+  r.fecha_registro_fin,
+  r.comentarios_generales comentariosGenerales,
+  r.id_usuario_actualiza idUsuarioActualiza
+  from registro_audio r
+  left join entidad tipoReg
+  on r.id_tipo_registro = tipoReg.id_entidad and tipoReg.id_tabla = 1
+  left join entidad canal
+  on r.id_canal = canal.id_correlativo and canal.id_tabla = 2
+  left join entidad proveedor
+  on r.id_proveedor = proveedor.id_correlativo and proveedor.id_tabla = 3
+  left join entidad producto
+  on r.id_producto = producto.id_correlativo and producto.id_tabla = 4
+  left join entidad campana
+  on r.id_campana = campana.id_correlativo and campana.id_tabla = 5
+  left join entidad segmento
+  on r.id_segmento = segmento.id_correlativo and segmento.id_tabla = 6
+  left join entidad estado
+  on r.id_estado = estado.id_correlativo and estado.id_tabla = 7
+  left join entidad cluster
+  on r.id_tipo_cluster = cluster.id_correlativo and cluster.id_tabla = 8
+  left join entidad gestion
+  on r.id_tipo_gestion = gestion.id_correlativo and gestion.id_tabla = 9
+  left join usuario u
+  on r.id_monitor = u.id
+  order by r.id desc "
+},
+{
+  "id": 2,
+  "type": 1,
+  "description": "get valores de entidad tablas",
+  "sql": "
+  select * from entidad where id_tabla = @idTabla
+  and estado = 1;
+  "
+},
+{
+  "id": 3,
+  "type": 4,
+  "description": "insert new registro",
+  "sql": "
+  CALL prc_ins_registro_audio_venta(@p_id_tipo_registro,
+      @p_id_canal, @p_id_proveedor, @p_id_producto, @p_id_campana, @p_id_segmento,
+      @p_fecha_llamada, @p_id_monitor, @p_id_estado, @p_tmau, @p_grabacion_id, @p_dimensionado,
+      @p_telefono_peticion, @p_id_tipo_cluster, @p_producto_audio, @p_producto_base, @p_tmo2,
+      @p_id_tipo_gestion, @p_data_unico_cliente, @p_fecha_registro_fin, @p_comentarios_generales,
+      @p_id_usuario_actualiza,@p_hora_deteccion,@p_hora_llamada, @p_hora_fin_llamada, @p_hora_registro, @p_hora_solucion,@p_descripcion, @CONFIG_OUT_ID, @CONFIG_OUT_MSG_ERROR, @CONFIG_OUT_MSG_EXITO)
+  "
+},
+{
+  "id": 4,
+  "type": 1,
+  "description": "Get atributos del registro",
+  "sql": "
+  Select *
+  from entidad atributo
+  where id_tabla = 10
+  and idPadre = @p_id_entidad_atributo
+  and estado = 1;
+  "
+},
+{
+  "id": 5,
+  "type": 1,
+  "description": "Get atributos del registro",
+  "sql": "
+  Select *
+  from entidad atributo
+  where id_tabla = 11
+  and idPadre = @p_id_atributo
+  and estado = 1;
+  "
+},
+{
+  "id": 6,
+  "type": 4,
+  "description": "insert new attribute",
+  "sql": "
+  CALL prc_ins_atributos(@p_id_registro_audio, @p_id_correlativo, @p_valor, @p_texto,
+      @CONFIG_OUT_ID, @CONFIG_OUT_MSG_ERROR, @CONFIG_OUT_MSG_EXITO)
+  "
+},
+{
+  "id": 7,
+  "type": 1,
+  "description": "Get valores de atributo de un tipo en especifico",
+  "sql": "
+  select rav.*,
+  resultado.valor_texto_1 as resultadoValor,
+  e.valor_texto_1
+  from registro_audio_values rav
+  left join entidad e on e.id_correlativo = rav.id_atributo and e.id_tabla = 10
+  left join entidad resultado on resultado.id_correlativo = rav.id_resultado and resultado.id_tabla = 11
+  where id = @p_id_registro_audio "
+},
+{
+  "id": 8,
+  "type": 1,
+  "description": "get excel data",
+  "sql": "
+  select r.id,
+  tipoReg.valor_texto_1 tipoRegistro,
+  canal.valor_texto_1 canal,
+  proveedor.valor_texto_1 proveedor,
+  producto.valor_texto_1 producto,
+  campana.valor_texto_1 campana,
+  segmento.valor_texto_1 segmento,
+  r.fecha_registro_inicio fechaRegistro,
+  r.fecha_llamada fechaLlamada,
+  concat(u.nombre, ' ', u.apellido) as monitor,
+  estado.valor_texto_1 estado,
+  r.tmau,
+  r.grabacion_id grabacionId,
+  r.dimensionado,
+  r.telefono_peticion telefonoPeticion,
+  cluster.valor_texto_1 tipoCluster,
+  r.producto_audio productoAudio,
+  r.producto_base productoBase,
+  r.tmo2,
+  gestion.valor_texto_1 tipoGestion,
+  r.data_unico_cliente dataUnicoCliente,
+  r.fecha_registro_fin,
+  r.comentarios_generales comentariosGenerales,
+  r.id_usuario_actualiza idUsuarioActualiza
+  from registro_audio r
+  left join entidad tipoReg
+  on r.id_tipo_registro = tipoReg.id_entidad and tipoReg.id_tabla = 1
+  left join entidad canal
+  on r.id_canal = canal.id_correlativo and canal.id_tabla = 2
+  left join entidad proveedor
+  on r.id_proveedor = proveedor.id_correlativo and proveedor.id_tabla = 3
+  left join entidad producto
+  on r.id_producto = producto.id_correlativo and producto.id_tabla = 4
+  left join entidad campana
+  on r.id_campana = campana.id_correlativo and campana.id_tabla = 5
+  left join entidad segmento
+  on r.id_segmento = segmento.id_correlativo and segmento.id_tabla = 6
+  left join entidad estado
+  on r.id_estado = estado.id_correlativo and estado.id_tabla = 7
+  left join entidad cluster
+  on r.id_tipo_cluster = cluster.id_correlativo and cluster.id_tabla = 8
+  left join entidad gestion
+  on r.id_tipo_gestion = gestion.id_correlativo and gestion.id_tabla = 9
+  left join usuario u
+  on r.id_monitor = u.id
+  where r.id_tipo_registro = @id_tipo_registro
+  order by r.id desc;
+  "
+},
+{
+  "id": 9,
+  "type": 1,
+  "description": "get search registros audio",
+  "sql": "
+  select r.id,
+  tipoReg.valor_texto_1 tipoRegistro,
+  canal.valor_texto_1 canal,
+  proveedor.valor_texto_1 proveedor,
+  producto.valor_texto_1 producto,
+  campana.valor_texto_1 campana,
+  segmento.valor_texto_1 segmento,
+  r.fecha_registro_inicio fechaRegistro,
+  r.fecha_llamada fechaLlamada,
+  concat(u.nombre, ' ', u.apellido) as monitor,
+  estado.valor_texto_1 estado,
+  r.tmau,
+  r.grabacion_id grabacionId,
+  r.dimensionado,
+  r.telefono_peticion telefonoPeticion,
+  cluster.valor_texto_1 tipoCluster,
+  r.producto_audio productoAudio,
+  r.producto_base productoBase,
+  r.tmo2,
+  gestion.valor_texto_1 tipoGestion,
+  r.data_unico_cliente dataUnicoCliente,
+  r.fecha_registro_fin,
+  r.comentarios_generales comentariosGenerales,
+  r.id_usuario_actualiza idUsuarioActualiza
+  from registro_audio r
+  left join entidad tipoReg
+  on r.id_tipo_registro = tipoReg.id_entidad and tipoReg.id_tabla = 1
+  left join entidad canal
+  on r.id_canal = canal.id_correlativo and canal.id_tabla = 2
+  left join entidad proveedor
+  on r.id_proveedor = proveedor.id_correlativo and proveedor.id_tabla = 3
+  left join entidad producto
+  on r.id_producto = producto.id_correlativo and producto.id_tabla = 4
+  left join entidad campana
+  on r.id_campana = campana.id_correlativo and campana.id_tabla = 5
+  left join entidad segmento
+  on r.id_segmento = segmento.id_correlativo and segmento.id_tabla = 6
+  left join entidad estado
+  on r.id_estado = estado.id_correlativo and estado.id_tabla = 7
+  left join entidad cluster
+  on r.id_tipo_cluster = cluster.id_correlativo and cluster.id_tabla = 8
+  left join entidad gestion
+  on r.id_tipo_gestion = gestion.id_correlativo and gestion.id_tabla = 9
+  left join usuario u
+  on r.id_monitor = u.id
+  where(@p_id_canal IS NULL OR r.id_canal = @p_id_canal)
+  and(@p_id_proveedor IS NULL OR r.id_proveedor = @p_id_proveedor)
+  and(@p_id_producto IS NULL OR r.id_producto = @p_id_producto)
+  and(@p_id_campana IS NULL OR r.id_campana = @p_id_campana)
+  and(@p_fecha_registro IS NULL OR date(r.fecha_registro_inicio) = @p_fecha_registro)
+  and(@p_fecha_llamada IS NULL OR r.fecha_llamada = @p_fecha_llamada)
+  and(@p_tipo_registro IS NULL OR r.id_tipo_registro = @p_tipo_registro)
+  and(@p_id_monitor IS NULL OR u.id = @p_id_monitor)
+  order by r.id desc "
+},
+{
+  "id": 10,
+  "type": 6,
+  "description": "Delete registro values",
+  "sql": "
+  CALL prc_delete_registro_audio_valores(@p_id_registro, @CONFIG_OUT_MSG_EXITO, @CONFIG_OUT_MSG_ERROR)
+  "
+},
+{
+  "id": 11,
+  "type": 6,
+  "description": "Delete registro",
+  "sql": "
+  CALL prc_delete_registro_audio(@p_id_registro, @CONFIG_OUT_MSG_EXITO, @CONFIG_OUT_MSG_ERROR)
+  "
+},
+{
+  "id": 12,
+  "type": 1,
+  "description": "Get valores de atributo de un tipo en especifico",
+  "sql": "
+  select rav.*,
+  rav.valor_texto as resultadoValor,
+  campo.valor_texto_1 as valor_texto_1
+  from registro_audio_values rav
+  left join entidad campo on campo.id_entidad = rav.id_atributo and id_resultado is null
+  where id = @p_id_registro_audio
+  and rav.id_resultado is null "
+},
+{
+  "id": 13,
+  "type": 1,
+  "description": "get total registro audios",
+  "sql": "
+  SELECT count( * ) as total_registros FROM registro_audio;
+
+  "
+},
+{
+  "id": 14,
+  "type": 1,
+  "description": "get monitor",
+  "sql": "
+  select id,
+  concat(nombre, ' ', apellido) as monitor from usuario;
+  "
+},
+{
+  "id": 15,
+  "type": 1,
+  "description": "get one registro audio base",
+  "sql": "
+  select *
+  from registro_audio r
+  where r.id = @p_id "
+},
+{
+  "id": 16,
+  "type": 5,
+  "description": "Update an attribute",
+  "sql": "
+  CALL prc_update_atributo(@p_id_registro_audio, @p_id_correlativo, @p_id_valor, @p_texto,
+      @CONFIG_OUT_ID, @CONFIG_OUT_MSG_ERROR, @CONFIG_OUT_MSG_EXITO)
+  "
+},
+{
+  "id": 17,
+  "type": 5,
+  "description": "update registro base",
+  "sql": "
+  CALL prc_update_registro_audio(@p_id_registro_audio,
+      @p_id_canal, @p_id_proveedor, @p_id_producto, @p_id_campana, @p_id_segmento,
+      @p_fecha_llamada, @p_id_estado, @p_grabacion_id, @p_dimensionado,
+      @p_telefono_peticion, @p_id_tipo_cluster, @p_producto_audio, @p_producto_base, @p_tmo2,
+      @p_id_tipo_gestion, @p_data_unico_cliente, @p_fecha_registro_fin, @p_comentarios_generales,
+      @p_id_usuario_actualiza, @CONFIG_OUT_ID, @CONFIG_OUT_MSG_ERROR, @CONFIG_OUT_MSG_EXITO)
+  "
+},{
+  "id": 18,
+  "type": 1,
+  "description": "Get atributos del estado de evento",
+  "sql": "
+  Select *
+  from entidad atributo
+  where id_tabla = 18
+  and estado = 1;
+  "
+}
+,{
+  "id": 19,
+  "type": 1,
+  "description": "Get atributos del area responsable",
+  "sql": "
+  Select *
+  from entidad atributo
+  where id_tabla = 19
+  and estado = 1;
+  "
+}
+,{
+  "id": 20,
+  "type": 1,
+  "description": "Get atributos del estado de ticket",
+  "sql": "
+  Select *
+  from entidad atributo
+  where id_tabla = 20
+  and estado = 1;
+  "
+}
+,{
+  "id": 21,
+  "type": 1,
+  "description": "Get atributos prioridad",
+  "sql": "
+  Select *
+  from entidad atributo
+  where id_tabla = 21
+  and estado = 1;
+  "
+},{
+  "id": 22,
+  "type": 1,
+  "description": "Get atributos de notificacion",
+  "sql": "
+  Select *
+  from entidad atributo
+  where id_tabla = 22
+  and estado = 1;
+  "
+},{
+"id": 23,
+"type": 4,
+"description": "insert new registro seguimiento",
+"sql": "CALL prc_ins_registro_seguimiento(
+@p_id_tipoEvento,
+@p_cdescripcion,
+@p_estado,
+@p_motivo,
+@p_aplicacion,
+@p_hora_deteccion,
+@p_fecha_inicio,
+@p_hora_inicio,
+@p_hora_fin,
+@p_fecha_fin,
+@p_hora_notificacion,
+@p_modo,
+@p_destinatario,
+@p_cantidad,
+@p_codigo_ticket_generado,
+@p_hora_generacion,
+@p_estic,
+@p_prioridad,
+@p_area,
+@p_fecha_resolucion,
+@p_hora_resolucion,
+@p_pbi,
+@p_eta_pbi,
+@p_comentariosgenerales,
+@p_medidas_correctivas,
+@p_notas,
+@p_user_creacion,
+@p_fecha_creacion,
+@CONFIG_USER_ID,
+@CONFIG_OUT_MSG_ERROR,
+@CONFIG_OUT_MSG_EXITO)        "
+},
+{
+  "id": 24,
+  "type": 1,
+  "description": "get registro audio",
+  "sql": "
+  select sg.idRegistro as idreg,CONCAT('EVE', LPAD(idRegistro, 5, '0')) as cod_evento,e.valor_texto_1 as tipo_evento, sg.descripcion, e1.valor_texto_1 as estado , e2.valor_texto_1 as motivo,
+e3.valor_texto_1 as aplicacion,sg.hora_deteccion ,sg.hora_inicio ,sg.hora_fin ,
+sg.hora_notificacion, e4.valor_texto_1 as modonotificacion,
+sg.codigo_ticket_generado ,sg.hora_generacion ,
+e5.valor_texto_1 as estado_ticket,
+e6.valor_texto_1 as prioridad,
+e7.valor_texto_1 as area_responsable,
+sg.hora_resolucion ,sg.pbi ,sg.eta_pbi,
+case when sg.user_actualizacion is null then us_crea.usuario else us_update.usuario end usuario_registro
+from seguimiento_turno sg
+left join entidad e on   sg.id_tipoEvento = e.id_correlativo  and e.id_tabla = 18
+left join entidad e1 on  sg.id_estado = e1.id_correlativo  and e1.id_tabla = 19
+left join entidad e2 on  sg.id_motivo = e2.id_correlativo  and e2.id_tabla = 20
+left join entidad e3 on  sg.id_aplicacion = e3.id_correlativo  and e3.id_tabla = 21
+left join entidad e4 on  sg.id_modo = e4.id_correlativo  and e4.id_tabla = 22
+left join entidad e5 on  sg.id_estadoticket = e5.id_correlativo  and e5.id_tabla = 29
+left join entidad e6 on  sg.id_prioridad = e6.id_correlativo  and e6.id_tabla = 30
+left join entidad e7 on  sg.id_area = e7.id_correlativo  and e7.id_tabla = 31
+left join usuario us_update on  sg.user_actualizacion = us_update.id
+left join usuario us_crea on sg.user_creacion = us_crea.id
+where sg.ver_estado = 1 and  sg.id_estado in (1,2,3)
+order by sg.fecha_creacion desc;
+"
+},
+{
+  "id": 25,
+  "type": 1,
+  "description": "get search registros seguimiento",
+  "sql": "select sg.idRegistro as idreg,CONCAT('EVE', LPAD(idRegistro, 5, '0')) as cod_evento,e.valor_texto_1 as tipo_evento, sg.descripcion, e1.valor_texto_1 as estado , e2.valor_texto_1 as motivo,
+      e3.valor_texto_1 as aplicacion,sg.hora_deteccion ,sg.hora_inicio ,sg.hora_fin ,
+      sg.hora_notificacion, e4.valor_texto_1 as modonotificacion,
+      sg.codigo_ticket_generado ,sg.hora_generacion ,
+      e5.valor_texto_1 as estado_ticket,
+      e6.valor_texto_1 as prioridad,
+      e7.valor_texto_1 as area_responsable,
+      sg.hora_resolucion ,sg.pbi ,sg.eta_pbi,
+      case when sg.user_actualizacion is null then us_crea.usuario else us_update.usuario end usuario_registro
+      from seguimiento_turno sg
+      left join entidad e on   sg.id_tipoEvento = e.id_correlativo  and e.id_tabla = 18
+      left join entidad e1 on  sg.id_estado = e1.id_correlativo  and e1.id_tabla = 19
+      left join entidad e2 on  sg.id_motivo = e2.id_correlativo  and e2.id_tabla = 20
+      left join entidad e3 on  sg.id_aplicacion = e3.id_correlativo  and e3.id_tabla = 21
+      left join entidad e4 on  sg.id_modo = e4.id_correlativo  and e4.id_tabla = 22
+      left join entidad e5 on  sg.id_estadoticket = e5.id_correlativo  and e5.id_tabla = 29
+      left join entidad e6 on  sg.id_prioridad = e6.id_correlativo  and e6.id_tabla = 30
+      left join entidad e7 on  sg.id_area = e7.id_correlativo  and e7.id_tabla = 31
+      left join usuario us_update on  sg.user_actualizacion = us_update.id
+      left join usuario us_crea on sg.user_creacion = us_crea.id
+      where
+      (@p_id_area is null or sg.id_area = @p_id_area) and
+      (@p_incidencia is null or sg.codigo_ticket_generado = @p_incidencia) and
+      (DATE_FORMAT(@p_inicio_registro, '%Y-%m-%d') is null or DATE_FORMAT(sg.fecha_creacion , '%Y-%m-%d') >= @p_inicio_registro  ) and
+      (DATE_FORMAT(@p_fin_registro, '%Y-%m-%d') is null or DATE_FORMAT(sg.fecha_creacion, '%Y-%m-%d') <= @p_fin_registro ) and
+      sg.ver_estado = 1
+      order by sg.fecha_creacion desc;"
+},
+{
+  "id": 26,
+  "type": 1,
+  "description": "get one registro seguimiento",
+  "sql": "
+  select *,DATE_FORMAT(fecha_fin, '%m/%d/%Y') as f_fin,CONCAT('EVE', LPAD(idRegistro, 5, '0')) as cod_evento
+  from seguimiento_turno r
+  where r.idRegistro = @p_id "
+},
+{
+"id": 27,
+"type": 5,
+"description": "update registro seguimiento",
+"sql": "
+CALL prc_update_seguimiento(
+@p_id_registro,
+@p_id_tipoEvento,
+@p_cdescripcion,
+@p_estado,
+@p_motivo,
+@p_aplicacion,
+@p_hora_deteccion,
+@p_fecha_inicio,
+@p_hora_inicio,
+@p_hora_fin,
+@p_fecha_fin,
+@p_hora_notificacion,
+@p_modo,
+@p_destinatario,
+@p_cantidad,
+@p_codigo_ticket_generado,
+@p_hora_generacion,
+@p_estic,
+@p_prioridad,
+@p_area,
+@p_fecha_resolucion,
+@p_hora_resolucion,
+@p_pbi,
+@p_eta_pbi,
+@p_comentariosgenerales,
+@p_medidas_correctivas,
+@p_notas,
+@p_fecha_actualizacion,
+@p_user_actualizacion,
+@CONFIG_USER_ID,
+@CONFIG_OUT_MSG_ERROR,
+@CONFIG_OUT_MSG_EXITO )"
+},
+{
+  "id": 28,
+  "type": 1,
+  "description": "eliminar one registro seguimiento",
+  "sql": "
+ update seguimiento_turno
+  set ver_estado = 0
+  where idRegistro =  @p_id "
+},
+{
+  "id": 29,
+  "type": 1,
+  "description": "Get atributos de estado de ticket",
+  "sql": "
+  Select *
+  from entidad atributo
+  where id_tabla = 29
+  and estado = 1;
+  "
+},
+{
+  "id": 30,
+  "type": 1,
+  "description": "Get atributos de prioridad",
+  "sql": "
+  Select *
+  from entidad atributo
+  where id_tabla = 30
+  and estado = 1;
+  "
+},
+{
+  "id": 31,
+  "type": 1,
+  "description": "Get atributos de area responsable",
+  "sql": "
+  Select *
+  from entidad atributo
+  where id_tabla = 31
+  and estado = 1;
+  "
+},
+{
+  "id": 32,
+  "type": 1,
+  "description": "get registro audio",
+  "sql": "
+      select sg.id,sg.idRegistro,sg.id_estado,e1.valor_texto_1 as estado ,sg.id_motivo, e2.valor_texto_1 as motivo,sg.user_actualizacion,us.usuario as name,DATE_FORMAT(sg.fecha, '%d/%m/%Y %H:%i:%s') as fecha
+      from historial_seguimiento as sg
+      left join entidad e1 on  sg.id_estado = e1.id_correlativo  and e1.id_tabla = 19
+      left join entidad e2 on  sg.id_motivo = e2.id_correlativo  and e2.id_tabla = 20
+      left join usuario us on sg.user_actualizacion = us.id
+     where sg.idRegistro = @p_id
+      order by sg.fecha;
+    "
+},
+{
+  "id": 33,
+  "type": 1,
+  "description": "get registro detalle",
+  "sql": "
+      SELECT sg.idRegistro ,CONCAT('EVE', LPAD(sg.idRegistro, 5, '0')) as cod_evento,e1.valor_texto_1 as aplicacion,sg.codigo_ticket_generado,sg.notas,sg.cantidad as servicios,sg.hora_generacion,e2.valor_texto_1 as estado from seguimiento_turno sg
+      left join entidad e1 on  sg.id_aplicacion = e1.id_correlativo  and e1.id_tabla = 21
+      left join entidad e2 on  sg.id_estado     = e2.id_correlativo  and e2.id_tabla = 19
+      where sg.idRegistro =  @p_id
+      order by sg.idRegistro ASC
+    "
+},
+
+// NUEVAS QUERYS DEL SISTEMA NOC
+{
+"id": 34,
+"type": 1,
+"description": "Listados de area responsable",
+"sql": "
+SELECT
+id_entidad,
+id_tabla,
+id_correlativo,
+valor_texto_1
+FROM entidad
+WHERE
+id_tabla = 31 AND estado = 1
+ORDER BY valor_texto_1 DESC;"
+},
+{
+"id": 35,
+"type": 1,
+"description": "Listados de Estados",
+"sql": "
+SELECT
+id_entidad,
+id_tabla,
+id_correlativo,
+valor_texto_1
+FROM entidad
+WHERE
+id_tabla = 19 AND estado = 1
+ORDER BY valor_texto_1 DESC;"
+},
+{
+"id": 36,
+"type": 1,
+"description": "Listados de Notificaciones",
+"sql": "
+SELECT
+id_entidad,
+id_tabla,
+id_correlativo,
+valor_texto_1
+FROM entidad
+WHERE
+id_tabla = 22 AND estado = 1
+ORDER BY valor_texto_1 DESC;"
+},
+{
+"id": 37,
+"type": 1,
+"description": "Listados de Prioridades",
+"sql": "
+SELECT
+id_entidad,
+id_tabla,
+id_correlativo,
+valor_texto_1
+FROM entidad
+WHERE
+id_tabla = 30 AND estado = 1
+ORDER BY valor_texto_1 DESC;"
+},
+{
+"id": 38,
+"type": 1,
+"description": "Listados de tipos de EVENTO",
+"sql": "
+SELECT
+id_entidad,
+id_tabla,
+id_correlativo,
+valor_texto_1
+FROM entidad
+WHERE
+id_tabla = 18 AND estado = 1
+ORDER BY valor_texto_1 DESC;"
+},
+{
+"id": 39,
+"type": 1,
+"description": "Listados de HISTORICO DE CAMBIOS",
+"sql": "
+SELECT
+id_entidad,
+id_tabla,
+id_correlativo,
+valor_texto_1
+FROM entidad
+WHERE
+id_tabla = 20 AND estado = 1
+ORDER BY valor_texto_1 DESC;"
+},
+{
+"id": 40,
+"type": 1,
+"description": "Listados de Motivos",
+"sql": "
+SELECT
+id_entidad,
+id_tabla,
+id_correlativo,
+valor_texto_1
+FROM entidad
+WHERE
+id_tabla = 20 AND estado = 1
+ORDER BY valor_texto_1 DESC;"
+},
+{
+"id": 41,
+"type": 1,
+"description": "Listado y busqueda de EVENTO",
+"sql": "
+SELECT sg.idRegistro AS idreg,
+CONCAT('EVE', LPAD(idRegistro, 5, '0')) AS cod_evento, -- EVE01336
+e.id_correlativo  AS id_tipo_evento,
+e.valor_texto_1   AS tipo_evento,
+sg.descripcion,
+sg.cantidad,
+e1.id_correlativo AS id_estado,
+e1.valor_texto_1  AS estado,
+e2.id_correlativo AS id_motivo,
+e2.valor_texto_1  AS motivo,
+e3.id_correlativo AS id_aplicacion,
+e3.valor_texto_1  AS aplicacion,
+sg.hora_deteccion,
+DATE_FORMAT(fecha_inicio, '%d/%m/%Y') AS f_inicio,
+sg.hora_inicio ,
+sg.hora_fin ,
+sg.hora_notificacion,
+e4.id_correlativo AS id_modonotificacion,
+e4.valor_texto_1  AS modonotificacion,
+sg.codigo_ticket_generado,
+sg.hora_generacion,
+sg.id_estadoticket,
+e5.valor_texto_1  AS estado_ticket,
+e6.id_correlativo AS id_prioridad,
+e6.valor_texto_1  AS prioridad,
+e7.id_correlativo AS id_area_responsable,
+e7.valor_texto_1  AS area_responsable,
+sg.destinatario,
+sg.comentariosgenerales,
+sg.notas,
+sg.hora_resolucion,
+sg.pbi,
+sg.eta_pbi,
+DATE_FORMAT(fecha_fin, '%d/%m/%Y') as f_fin,
+DATE_FORMAT(sg.fecha_creacion, '%d/%m/%Y') AS fecha_creacion,
+DATE_FORMAT(sg.fecha_resolucion, '%d/%m/%Y') AS f_resolucion,
+CASE WHEN sg.user_actualizacion IS NULL THEN us_crea.usuario ELSE us_update.usuario END usuario_registro
+
+FROM seguimiento_turno sg
+LEFT JOIN entidad e  ON  sg.id_tipoEvento = e.id_correlativo  	AND e.id_tabla  = 18
+LEFT JOIN entidad e1 ON  sg.id_estado = e1.id_correlativo  	  	AND e1.id_tabla = 19
+LEFT JOIN entidad e2 ON  sg.id_motivo = e2.id_correlativo  	  	AND e2.id_tabla = 20
+LEFT JOIN entidad e3 ON  sg.id_aplicacion = e3.id_correlativo 	AND e3.id_tabla = 21
+LEFT JOIN entidad e4 ON  sg.id_modo = e4.id_correlativo 	  	AND e4.id_tabla = 22
+LEFT JOIN entidad e5 ON  sg.id_estadoticket = e5.id_correlativo AND e5.id_tabla = 29
+LEFT JOIN entidad e6 ON  sg.id_prioridad = e6.id_correlativo  	AND e6.id_tabla = 30
+LEFT JOIN entidad e7 ON  sg.id_area = e7.id_correlativo  	  	AND e7.id_tabla = 31
+LEFT JOIN usuario us_update ON  sg.user_actualizacion = us_update.id
+LEFT JOIN usuario us_crea   ON  sg.user_creacion = us_crea.id
+WHERE
+(@p_cod_ticket			IS NULL OR sg.codigo_ticket_generado LIKE CONCAT('%', @p_cod_ticket, '%'))
+AND (@p_usuario				IS NULL OR us_crea.usuario		     LIKE CONCAT('%', @p_usuario, '%'))
+AND (@p_id_area_responsable IS NULL OR e7.id_correlativo = @p_id_area_responsable	)
+
+AND ((@inicio IS NULL AND @fin IS NULL) OR (@inicio IS NOT NULL AND @fin IS NOT NULL)
+AND DATE(sg.fecha_creacion) BETWEEN STR_TO_DATE(@inicio, '%Y/%m/%d')
+AND STR_TO_DATE(@fin,'%Y/%m/%d') OR (@inicio IS NOT NULL AND @fin IS NULL)
+AND DATE(sg.fecha_creacion) >= STR_TO_DATE(@inicio, '%Y/%m/%d') OR (@inicio IS NULL AND @fin IS NOT NULL)
+AND DATE(sg.fecha_creacion) <= STR_TO_DATE(@fin, '%Y/%m/%d')) AND (DATEDIFF(@fin, @inicio) <= 90 OR (@inicio IS NULL AND @fin IS NULL))
+AND sg.ver_estado = 1
+AND  sg.id_estado IN (1, 2, 3, 4, 5)
+ORDER BY sg.fecha_creacion DESC;"
+},
+{
+"id": 42,
+"type": 1,
+"description": "Listado de DESCRIPCION",
+"sql": "
+SELECT
+id_entidad,
+id_tabla,
+id_correlativo,
+valor_texto_1
+FROM entidad
+WHERE
+id_tabla = 20 AND estado = 1
+ORDER BY valor_texto_1 DESC;"
+},
+{
+"id": 43,
+"type": 1,
+"description": "Listado para el MODAL detalle",
+"sql": "
+SELECT sg.idRegistro ,
+CONCAT('EVE', LPAD(sg.idRegistro, 5, '0')) AS cod_evento,
+e1.valor_texto_1 AS aplicacion,
+sg.codigo_ticket_generado,
+sg.notas,sg.
+cantidad AS servicios,
+sg.hora_generacion,
+e2.valor_texto_1 AS estado
+FROM seguimiento_turno sg
+LEFT JOIN entidad e1 ON  sg.id_aplicacion = e1.id_correlativo  AND e1.id_tabla = 21
+LEFT JOIN entidad e2 ON  sg.id_estado     = e2.id_correlativo  AND e2.id_tabla = 19
+WHERE sg.idRegistro =  @p_id
+ORDER BY sg.idRegistro ASC;"
+},
+{
+"id": 44,
+"type": 1,
+"description": "Listado y Plataforma/Aplicaciones",
+"sql": "
+SELECT
+id_entidad,
+id_tabla,
+id_correlativo,
+valor_texto_1
+FROM entidad
+WHERE
+id_tabla = 21 AND estado = 1
+ORDER BY valor_texto_1 DESC;"
+},
+{
+"id": 45,
+"type": 1,
+"description": "Listado de Ticket",
+"sql": "
+SELECT
+id_entidad,
+id_tabla,
+id_correlativo,
+valor_texto_1
+FROM entidad
+WHERE
+id_tabla = 29 AND estado = 1
+ORDER BY valor_texto_1 DESC;"
+},
+]
+

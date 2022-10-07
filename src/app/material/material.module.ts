@@ -55,7 +55,6 @@ import { MatMomentDateModule } from '@angular/material-moment-adapter';
 
     MatDatepickerModule,
     MatMomentDateModule
-
   ],
   providers: [{ provide: MAT_DATE_LOCALE, useValue: 'es',  }, ],
 })

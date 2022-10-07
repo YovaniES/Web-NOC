@@ -25,7 +25,6 @@ export class Usuario {
 })
 export class ModalEventoComponent implements OnInit {
   usuario: any;
-  // usuario:Usuario;
   loadingItem: boolean = false;
   userID: number = 0;
   eventoForm!: FormGroup;
@@ -45,7 +44,6 @@ export class ModalEventoComponent implements OnInit {
   ngOnInit(): void {
     this.newForm();
     this.cargarEventoByID();
-    // this.valueChanges();
     this.getListEstado();
     this.getListNotificaciones();
     this.getlistTipoIncidencia();
@@ -106,7 +104,6 @@ export class ModalEventoComponent implements OnInit {
       esTipoIncidencia = tipoIncidencia.id_correlativo == this.eventoForm.controls['tipo_evento'].value;
     }
     // console.log('TIPO:INC', tipoIncidencia, esTipoIncidencia);
-
     return esTipoIncidencia;
    }
 
@@ -175,7 +172,8 @@ export class ModalEventoComponent implements OnInit {
 
       Swal.fire({
         title: 'Crear Evento!',
-        text: `Evento: ${resp.CONFIG_OUT_MSG_EXITO}, creado con éxito`,
+        text: `Registro Evento, creado con éxito`,
+        // text: `Evento: ${resp.CONFIG_OUT_MSG_EXITO}, creado con éxito`,
         icon: 'success',
         confirmButtonText: 'Ok',
       });
@@ -270,7 +268,6 @@ export class ModalEventoComponent implements OnInit {
       this.eventoForm.controls['h_generacion'     ].setValue(this.DATA_EVENTO.hora_generacion);
       this.eventoForm.controls['estado_ticket'    ].setValue(this.DATA_EVENTO.id_estadoticket);
       this.eventoForm.controls['area_responsable' ].setValue(this.DATA_EVENTO.id_area_responsable);
-      // this.eventoForm.controls['fecha_resolucion' ].setValue(this.DATA_EVENTO.fecha_resolucion);
       this.eventoForm.controls['h_solucion'       ].setValue(this.DATA_EVENTO.hora_resolucion);
       this.eventoForm.controls['pbi'              ].setValue(this.DATA_EVENTO.pbi );
       this.eventoForm.controls['eta_pbi'          ].setValue(this.DATA_EVENTO.eta_pbi);
@@ -328,7 +325,7 @@ export class ModalEventoComponent implements OnInit {
     }];
     this.eventoService.ListaHistoricoCambios(parametro[0]).subscribe((resp: any) => {
       this.listHistoricoCambios = resp.list;
-    //  console.log("listHistorico", resp.list);
+     console.log("listHistorico", resp.list);
       this.spinner.hide();
     });
   }
