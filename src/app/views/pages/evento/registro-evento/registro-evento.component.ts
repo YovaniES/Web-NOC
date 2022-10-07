@@ -40,7 +40,7 @@ export class RegistroEventoComponent implements OnInit {
     this.getListAreaResponsable();
   }
 
-    newFilfroForm(){
+  newFilfroForm(){
     this.filtroForm = this.fb.group({
       cod_ticket           : [''],
       usuario              : [''],

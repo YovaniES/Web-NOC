@@ -105,7 +105,7 @@ export class ModalEventoComponent implements OnInit {
     if (tipoIncidencia ) {
       esTipoIncidencia = tipoIncidencia.id_correlativo == this.eventoForm.controls['tipo_evento'].value;
     }
-    console.log('TIPO:INC', tipoIncidencia, esTipoIncidencia);
+    // console.log('TIPO:INC', tipoIncidencia, esTipoIncidencia);
 
     return esTipoIncidencia;
    }
@@ -137,27 +137,25 @@ export class ModalEventoComponent implements OnInit {
           p_hora_deteccion        : formValues.h_deteccion,
           p_fecha_inicio          : formValues.fecha_inicio,
           p_hora_inicio           : formValues.h_inicio,
+          p_hora_fin              : formValues.h_fin,
           // p_hora_fin              : formatDate(new Date(), 'hh:mm', 'en-US', ''),
           // p_hora_deteccion        : formatDate(new Date(), 'hh:mm', 'en-US', ''),
           // p_fecha_inicio          : moment(new Date()).format('YYYY-MM-DD HH:mm:ss'),
           // p_hora_inicio           : formatDate(new Date(), 'hh:mm', 'en-US', ''),
           // p_hora_fin              : formatDate(new Date(), 'hh:mm', 'en-US', ''),
           // "p_fecha_fin"                 : <HTMLInputElement>document.getElementById('ffin') ? (<HTMLInputElement>document.getElementById('ffin')).value :'',
-          p_fecha_fin             : '',
+          p_fecha_fin             : formValues.fecha_fin,
           p_hora_notificacion     : formValues.h_notificacion,
-          // p_hora_notificacion     : formatDate(new Date(), 'hh:mm', 'en-US', ''),
           p_modo                  : formValues.modo_notificacion,
           p_destinatario          : formValues.destinatario,
           p_cantidad              : formValues.servicios,
           p_codigo_ticket_generado: formValues.ticket_generado,
           p_hora_generacion       : formValues.h_generacion,
-          // p_hora_generacion       : formatDate(new Date(), 'hh:mm', 'en-US', ''),
           p_estic                 : formValues.estado_ticket,
           p_prioridad             : formValues.prioridad,
           p_area                  : formValues.area_responsable,
           p_fecha_resolucion      : formValues.fecha_resolucion,
           p_hora_resolucion       : formValues.h_solucion,
-          // p_hora_resolucion       : formatDate(new Date(), 'hh:mm', 'en-US', ''),
           p_pbi                   : formValues.pbi,
           p_eta_pbi               : formValues.eta_pbi,
           p_comentariosgenerales  : formValues.comentarios,
@@ -165,14 +163,19 @@ export class ModalEventoComponent implements OnInit {
           p_notas                 : formValues.motivo_notas,
           p_user_creacion         : this.userID,
           p_fecha_creacion        : moment(new Date()).format('YYYY-MM-DD HH:mm:ss'),
+          CONFIG_USER_ID           : this.userID,
+          CONFIG_OUT_MSG_ERROR : '',
+          CONFIG_OUT_MSG_EXITO : ''
         },
       };
 
     console.log('VAOR', this.eventoForm.value , parametro);
     this.eventoService.crearEvento(parametro).subscribe((resp: any) => {
+      console.log('INSERT_EVENT', resp);
+
       Swal.fire({
         title: 'Crear Evento!',
-        text: `Evento: ${formValues.tipo_evento}, creado con éxito`,
+        text: `Evento: ${resp.CONFIG_OUT_MSG_EXITO}, creado con éxito`,
         icon: 'success',
         confirmButtonText: 'Ok',
       });
@@ -265,9 +268,9 @@ export class ModalEventoComponent implements OnInit {
       this.eventoForm.controls['h_fin'            ].setValue(this.DATA_EVENTO.hora_fin);
       this.eventoForm.controls['ticket_generado'  ].setValue(this.DATA_EVENTO.codigo_ticket_generado);
       this.eventoForm.controls['h_generacion'     ].setValue(this.DATA_EVENTO.hora_generacion);
-      this.eventoForm.controls['estado_ticket'    ].setValue(this.DATA_EVENTO.id_estado_ticket);
+      this.eventoForm.controls['estado_ticket'    ].setValue(this.DATA_EVENTO.id_estadoticket);
       this.eventoForm.controls['area_responsable' ].setValue(this.DATA_EVENTO.id_area_responsable);
-      this.eventoForm.controls['fecha_resolucion' ].setValue(this.DATA_EVENTO.fecha_resolucion);
+      // this.eventoForm.controls['fecha_resolucion' ].setValue(this.DATA_EVENTO.fecha_resolucion);
       this.eventoForm.controls['h_solucion'       ].setValue(this.DATA_EVENTO.hora_resolucion);
       this.eventoForm.controls['pbi'              ].setValue(this.DATA_EVENTO.pbi );
       this.eventoForm.controls['eta_pbi'          ].setValue(this.DATA_EVENTO.eta_pbi);
@@ -290,6 +293,15 @@ export class ModalEventoComponent implements OnInit {
         const month = Number(str[1]);
         const date  = Number(str[0]);
         this.eventoForm.controls['fecha_inicio'].setValue(this.datePipe.transform(new Date(year, month-1, date), 'yyyy-MM-dd'))
+      }
+
+      if (this.DATA_EVENTO.f_fin) {
+        let fecha_x = this.DATA_EVENTO.f_resolucion
+        const str   = fecha_x.split('/');
+        const year  = Number(str[2]);
+        const month = Number(str[1]);
+        const date  = Number(str[0]);
+        this.eventoForm.controls['fecha_resolucion'].setValue(this.datePipe.transform(new Date(year, month-1, date), 'yyyy-MM-dd'))
       }
     }
   }

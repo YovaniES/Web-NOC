@@ -22,6 +22,11 @@ import { MatProgressBarModule } from '@angular/material/progress-bar';
 import { MatProgressSpinnerModule } from '@angular/material/progress-spinner';
 import { MatMenuModule } from '@angular/material/menu';
 
+import { MAT_DATE_LOCALE } from '@angular/material/core';
+import { MatDatepickerModule } from '@angular/material/datepicker';
+import { MatMomentDateModule } from '@angular/material-moment-adapter';
+
+
 @NgModule({
   declarations: [],
   exports: [
@@ -47,6 +52,11 @@ import { MatMenuModule } from '@angular/material/menu';
     MatRadioModule,
     MatSnackBarModule,
     MatMenuModule,
+
+    MatDatepickerModule,
+    MatMomentDateModule
+
   ],
+  providers: [{ provide: MAT_DATE_LOCALE, useValue: 'es',  }, ],
 })
 export class MaterialModule {}

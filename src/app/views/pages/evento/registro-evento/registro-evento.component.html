@@ -30,23 +30,15 @@
             </div>
 
             <div class="col-sm-3 cli-form-element">
-              <div class="form-group">
-                <label>Fecha registro <span class="date-rango">(desde)</span></label>
-                 <input
-                  type="date"
-                  class="form-control cli-input-white"
-                  formControlName="fecha_registro_inicio"/>
-              </div>
-            </div>
-
-            <div class="col-sm-3 cli-form-element">
-              <div class="form-group">
-                <label>Fecha registro <span class="date-rango">(hasta)</span></label>
-                <input
-                  type="date"
-                  class="form-control cli-input-white"
-                  formControlName="fecha_registro_fin"/>
-              </div>
+              <label class="form-label">Fecha de Registro</label>
+              <mat-form-field color="accent" appearance="outline">
+                <mat-date-range-input [rangePicker]="picker">
+                  <input matStartDate formControlName="fecha_registro_inicio"  placeholder="Desde"   >
+                  <input matEndDate   formControlName="fecha_registro_fin"     placeholder="Hasta" >
+                </mat-date-range-input>
+                <mat-datepicker-toggle matSuffix [for]="picker"></mat-datepicker-toggle>
+                <mat-date-range-picker #picker></mat-date-range-picker>
+              </mat-form-field>
             </div>
 
             <div class="cli-form-buttons" style="margin-top: 8px">
@@ -55,7 +47,7 @@
                 class="cli-btn btn-cancel"
                 style="border-radius: 2px; padding: 0.225rem 0.75rem"
                 (click)="limpiarFiltro()"
-              ><mat-icon class="icon-18">rotate_left</mat-icon>
+                ><mat-icon class="icon-18">rotate_left</mat-icon>
                 Limpiar
               </button>
 
@@ -121,29 +113,29 @@
                         currentPage : page,
                         totalItems  : totalPersonal
                       } ">
-              <td class="w100">
+              <td class="w50">
                 <div class="cli-table-actions">
                   <button matTooltip ="Ver Detalle"
                     class="icon-btn btn-trans c-grey"
                     (click)="abrirDetalleEvento(evento.idreg)"
-                    ><mat-icon class="icon-18">visibility</mat-icon>
+                    ><mat-icon class="icon-13">visibility</mat-icon>
                   </button>
 
                   <button matTooltip="Actualizar"
                     class="icon-btn btn-trans c-blue"
                     (click)="actualizarPersonal(evento)"
-                    ><mat-icon class="icon-18">edit</mat-icon>
+                    ><mat-icon class="icon-13">edit</mat-icon>
                   </button>
 
                   <button matTooltip="Eliminar"
                     class="icon-btn btn-trans c-fucsia"
                     (click)="abrirEliminarLogico(evento.id, evento.codigo_corporativo, '', evento.nombres)"
-                    ><mat-icon class="icon-18">delete</mat-icon>
+                    ><mat-icon class="icon-13">delete</mat-icon>
                   </button>
 
                 </div>
               </td>
-              <td class="w350"> {{ evento.cod_evento }}</td>
+              <td class="w150"> {{ evento.cod_evento }}</td>
               <td >{{ evento.codigo_ticket_generado }}</td>
               <td>{{ evento.tipo_evento | firstCapital }}</td>
               <td>{{ evento.estado | uppercase }}</td>
