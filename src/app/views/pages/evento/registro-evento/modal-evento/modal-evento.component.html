@@ -16,7 +16,7 @@
       <div class="pr-subtitle mt-2">Datos del evento</div>
       <div class="pr-section mb-3">
         <div class="pr-module-container">
-          <div class="row g-3">
+          <div class="row g-2">
 
             <div class="col-sm-3 cli-form-element" *ngIf="DATA_EVENTO">
               <label>Código de Evento</label>
@@ -162,7 +162,7 @@
         <div class="pr-subtitle mt-1">Incidencias</div>
         <div class="pr-section mb-3">
           <div class="pr-module-container">
-            <div class="row">
+            <div class="row g-2">
             <div class="col-sm-3 cli-form-element">
               <label>Ticket generado</label>
               <input
@@ -216,7 +216,7 @@
                 <label>Medidas correctivas</label>
                 <textarea
                   class="form-control"
-                  style="background-image: none; border-color: #a5a4a4; font-size: 14px;"
+                  style="background-image: none; border-color: #0dcaf0; font-size: 14px;"
                   rows="1"
                   placeholder="Describa alguna medida correctiva de la Incidencia..."
                   formControlName="medidas_correctivas">
@@ -293,10 +293,10 @@
                 <tbody>
                   <tr *ngFor="let cambios of listHistoricoCambios; let i = index">
                     <td>{{ i + 1 }}</td>
-                    <td>{{ cambios.estado }}</td>
-                    <td>{{ cambios.motivo }}</td>
-                    <td class="w300">{{ cambios.fecha }}</td>
-                    <td>{{ cambios.name }}</td>
+                    <td>{{ cambios.estado_evento }}</td>
+                    <td>{{ cambios.motivo_evento }}</td>
+                    <td class="w300">{{ cambios.fecha_cambio }}</td>
+                    <td>{{ cambios.usuario_responsable }}</td>
                   </tr>
                 </tbody>
               </table>

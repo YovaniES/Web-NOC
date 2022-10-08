@@ -26,7 +26,7 @@ export class RegistroEventoComponent implements OnInit {
   pageSize = 10;
 
   constructor(
-    private EventoService: EventoService,
+    private eventoService: EventoService,
     private exportExcellService: ExportExcellService,
     private fb: FormBuilder,
     private spinner: NgxSpinnerService,
@@ -63,7 +63,7 @@ export class RegistroEventoComponent implements OnInit {
           fin                  : this.datepipe.transform(this.filtroForm.value.fecha_registro_fin,"yyyy/MM/dd"),
       }
     }];
-    this.EventoService.cargarOBuscarEvento(parametro[0]).subscribe((resp: any) => {
+    this.eventoService.cargarOBuscarEvento(parametro[0]).subscribe((resp: any) => {
     this.blockUI.stop();
 
      console.log('Lista-eventos', resp, resp.list.length);
@@ -74,82 +74,37 @@ export class RegistroEventoComponent implements OnInit {
     });
   }
 
-  codCorporativo: any;
-  tooltipActivoInactivo: string =''
-  abrirEliminar(id: number, codCorporrativo: string, estado: string, fullname: string){
-    this.codCorporativo = codCorporrativo;
-
-    if (estado == 'Activo')   {this.tooltipActivoInactivo = "Desactivar"}
-    if (estado == 'Inactivo') {this.tooltipActivoInactivo = "Activar"}
-
-    Swal.fire({
-      title: `${this.tooltipActivoInactivo} al Personal?`,
-      text: `¿Desea ${this.tooltipActivoInactivo} al personal: ${fullname} ?`,
-      icon: 'question',
-      confirmButtonColor: '#20c997',
-      cancelButtonColor : '#b2b5b4',
-      confirmButtonText : 'Si!',
-      showCancelButton: true,
-      cancelButtonText: 'Cancelar',
-    }).then((resp) => {
-        if (resp.value) {
-          // this.bajaOaltaAlEvento(id, fullname);
-       }
-      }
-    );
-  }
-
-  abrirEliminarLogico(id:number, codCorporrativo:string, estado: string, nameevento: string){
-    // this.idEliminar = id;
-    this.codCorporativo = codCorporrativo;
-
-    Swal.fire({
-      title: `Eliminar evento?`,
-      text: `¿Desea eliminar el evento: ${nameevento}?`,
-      icon: 'question',
-      confirmButtonColor: '#20c997',
-      cancelButtonColor : '#b2b5b4',
-      confirmButtonText : 'Si!',
-      showCancelButton: true,
-      cancelButtonText: 'Cancelar',
-    }).then((resp) => {
-        if (resp.value) {
-          this.eliminacionLogica(id, nameevento);
-       }
-      });
-  }
-
-  eliminacionLogica(id: number, fullname: string){
+  eliminarEvento(id: number, cod_evento: string){
     this.spinner.show();
+
     let parametro:any[] = [{
-      "queryId": 37,
-      "mapValue": { param_id_persona : id }
-    }];
-
-    this.EventoService.eliminarEvento(parametro[0]).subscribe((resp: any) => {
-      const arrayData:any[] = Array.of(resp);
-      let msj  = arrayData[0].exitoMessage;
-      let msj2 = arrayData[0].errorMessage
-
-      if(msj == undefined){msj = ''}
-
-      if (msj != '') {
-        Swal.fire({
-          title: 'Eliminar evento',
-          text: `El evento: ${fullname}, fue eliminado con éxito`,
-          icon: 'success',
-        });
-
-      }else if (msj2 != ''){
-        Swal.fire({
-          title: `Eliminar el evento`,
-          text: `El evento: ${fullname}, no pudo ser eliminado por que tiene recursos asignados`,
-          icon: 'error',
-        });
-      }else{
-        // this.showError('Error');
+      queryId: 46,
+      mapValue: {
+        p_idRegistro: id,
       }
-      this.cargarOBuscarEvento();
+    }];
+    Swal.fire({
+      title: '¿Eliminar Evento?',
+      text: `¿Estas seguro que deseas eliminar la Evento: ${cod_evento}?`,
+      icon: 'question',
+      confirmButtonColor: '#ff6070',
+      cancelButtonColor: '#0d6efd',
+      confirmButtonText: 'Si, Eliminar!',
+      showCancelButton: true,
+      cancelButtonText: 'Cancelar',
+    }).then((resp) => {
+      if (resp.value) {
+        this.eventoService.eliminarEvento(parametro[0]).subscribe(resp => {
+
+          this.cargarOBuscarEvento();
+
+            Swal.fire({
+              title: 'Eliminar Evento',
+              text: `El Evento: ${cod_evento}, fue eliminado con éxito`,
+              icon: 'success',
+            });
+          });
+      }
     });
     this.spinner.hide();
   }
@@ -158,7 +113,7 @@ export class RegistroEventoComponent implements OnInit {
   getListAreaResponsable() {
     let parametro: any[] = [{ queryId: 34 }];
 
-    this.EventoService.getListAreaResponsable(parametro[0]).subscribe((resp: any) => {
+    this.eventoService.getListAreaResponsable(parametro[0]).subscribe((resp: any) => {
         this.listAreaResponsable = resp.list;
         // console.log('AREA_RESP', resp);
       });
@@ -177,7 +132,7 @@ export class RegistroEventoComponent implements OnInit {
     this.spinner.show();
 
     if (this.totalfiltro != this.totalPersonal) {
-      this.EventoService.cargarOBuscarEvento(offset.toString()).subscribe((resp: any) => {
+      this.eventoService.cargarOBuscarEvento(offset.toString()).subscribe((resp: any) => {
           this.listaEventos = resp.list;
           this.spinner.hide();
         });

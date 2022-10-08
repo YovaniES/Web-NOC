@@ -320,9 +320,9 @@ export class ModalEventoComponent implements OnInit {
     this.spinner.show();
 
     let parametro:any[] = [{
-      "queryId": 39,
+      "queryId": 47,
       "MapValue": {
-        "p_id": this.DATA_EVENTO.idreg
+        "p_idRegistro": this.DATA_EVENTO.idreg
       }
     }];
     this.eventoService.ListaHistoricoCambios(parametro[0]).subscribe((resp: any) => {

@@ -511,7 +511,7 @@ CALL prc_update_seguimiento(
 {
   "id": 28,
   "type": 1,
-  "description": "eliminar one registro seguimiento",
+  "description": "eliminar EVENTO",
   "sql": "
  update seguimiento_turno
   set ver_estado = 0
@@ -724,6 +724,7 @@ sg.eta_pbi,
 DATE_FORMAT(fecha_fin, '%d/%m/%Y') as f_fin,
 DATE_FORMAT(sg.fecha_creacion, '%d/%m/%Y') AS fecha_creacion,
 DATE_FORMAT(sg.fecha_resolucion, '%d/%m/%Y') AS f_resolucion,
+sg.medidas_correctivas,
 CASE WHEN sg.user_actualizacion IS NULL THEN us_crea.usuario ELSE us_update.usuario END usuario_registro
 
 FROM seguimiento_turno sg
@@ -731,10 +732,10 @@ LEFT JOIN entidad e  ON  sg.id_tipoEvento = e.id_correlativo  	AND e.id_tabla  =
 LEFT JOIN entidad e1 ON  sg.id_estado = e1.id_correlativo  	  	AND e1.id_tabla = 19
 LEFT JOIN entidad e2 ON  sg.id_motivo = e2.id_correlativo  	  	AND e2.id_tabla = 20
 LEFT JOIN entidad e3 ON  sg.id_aplicacion = e3.id_correlativo 	AND e3.id_tabla = 21
-LEFT JOIN entidad e4 ON  sg.id_modo = e4.id_correlativo 	  	AND e4.id_tabla = 22
+LEFT JOIN entidad e4 ON  sg.id_modo = e4.id_correlativo 	  	  AND e4.id_tabla = 22
 LEFT JOIN entidad e5 ON  sg.id_estadoticket = e5.id_correlativo AND e5.id_tabla = 29
 LEFT JOIN entidad e6 ON  sg.id_prioridad = e6.id_correlativo  	AND e6.id_tabla = 30
-LEFT JOIN entidad e7 ON  sg.id_area = e7.id_correlativo  	  	AND e7.id_tabla = 31
+LEFT JOIN entidad e7 ON  sg.id_area = e7.id_correlativo  	  	  AND e7.id_tabla = 31
 LEFT JOIN usuario us_update ON  sg.user_actualizacion = us_update.id
 LEFT JOIN usuario us_crea   ON  sg.user_creacion = us_crea.id
 WHERE
@@ -814,6 +815,37 @@ FROM entidad
 WHERE
 id_tabla = 29 AND estado = 1
 ORDER BY valor_texto_1 DESC;"
+},
+{
+"id": 46,
+"type": 5,
+"description": "Eliminar EVENTO del registro",
+"sql": "
+CALL prc_eliminar_evento(
+@p_idRegistro,
+@CONFIG_USER_ID,
+@CONFIG_OUT_MSG_ERROR,
+@CONFIG_OUT_MSG_EXITO)"
+},
+{
+"id": 47,
+"type": 1,
+"description": "Historico cambios de ESTADO - EVENTO",
+"sql": "
+SELECT hs.idRegistro,
+hs.id_estado,
+e.valor_texto_1 AS estado_evento,
+hs.id_motivo,
+e2.valor_texto_1 AS motivo_evento,
+-- e.id_correlativo AS id_vacaciones_estado,
+DATE_FORMAT(hs.fecha,'%d-%m-%Y %H:%i') AS fecha_cambio,
+hs.user_actualizacion,
+u.usuario AS usuario_responsable
+FROM historial_seguimiento hs
+LEFT JOIN entidad e  ON e.id_tabla = 19 AND e.id_correlativo = hs.id_estado
+LEFT JOIN entidad e2 ON e2.id_tabla = 20 AND e2.id_correlativo = hs.id_motivo
+LEFT JOIN usuario u  ON u.id = hs.user_actualizacion
+WHERE hs.idRegistro =  @p_idRegistro; "
 },
 ]
 

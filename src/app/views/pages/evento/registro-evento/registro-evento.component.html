@@ -128,7 +128,7 @@
 
                   <button matTooltip="Eliminar"
                     class="icon-btn btn-trans c-fucsia"
-                    (click)="abrirEliminarLogico(evento.id, evento.codigo_corporativo, '', evento.nombres)"
+                    (click)="eliminarEvento(evento.idreg, evento.cod_evento)"
                     ><mat-icon class="icon-13">delete</mat-icon>
                   </button>
 
@@ -141,10 +141,10 @@
               <td>{{ evento.hora_inicio | uppercase}}</td>
               <td>{{ evento.hora_fin | uppercase}}</td>
               <td>{{ evento.estado_ticket? evento.estado_ticket: '-' }}</td>
-              <td class="w100">{{ evento.area_responsable? evento.area_responsable : '-' }}</td>
+              <td style="min-width: 95px">{{ evento.area_responsable? evento.area_responsable : '-' }}</td>
               <td class="w100">{{ evento.modonotificacion }}</td>
               <td class="w100">{{ evento.usuario_registro }}</td>
-              <td class="w100">{{ evento.fecha_creacion  }}</td>
+              <td class="w100">{{ evento.fecha_creacion   }}</td>
             </tr>
           </tbody>
         </table>
