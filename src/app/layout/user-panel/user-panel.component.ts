@@ -14,8 +14,10 @@ export class UserPanelComponent implements OnInit, OnDestroy {
   observablePanel: Subscription = new Subscription();
   fullname!: string;
   nameini!: string;
-  subtitle: string = 'Usuario';
+  subtitle: string = 'ADMIN';
   @ViewChild('ovelay') overlay: any;
+
+  phtouri: string = '';
 
   constructor(
     private menuServices: MenuService,

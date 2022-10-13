@@ -1,5 +1,4 @@
 import { Component, OnInit } from '@angular/core';
-import { FormBuilder, FormGroup, Validators } from '@angular/forms';
 import { AuthService } from 'src/app/core/services/auth.service';
 import { MenuService } from 'src/app/core/services/menu.service';
 
@@ -17,7 +16,6 @@ export class HeaderComponent implements OnInit {
   constructor(
     private authService: AuthService,
     private menuService: MenuService,
-    private fb: FormBuilder,
   ) {}
 
   ngOnInit(): void {
