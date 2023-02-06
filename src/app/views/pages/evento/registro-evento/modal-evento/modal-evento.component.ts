@@ -294,7 +294,7 @@ export class ModalEventoComponent implements OnInit {
         this.eventoForm.controls['fecha_inicio'].setValue(this.datePipe.transform(new Date(year, month-1, date), 'yyyy-MM-dd'))
       }
 
-      if (this.DATA_EVENTO.f_fin) {
+      if (this.DATA_EVENTO.f_resolucion) {
         let fecha_x = this.DATA_EVENTO.f_resolucion
         const str   = fecha_x.split('/');
         const year  = Number(str[2]);

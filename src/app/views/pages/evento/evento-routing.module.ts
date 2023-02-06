@@ -7,7 +7,7 @@ const routes: Routes = [
   {
     path: '', children: [
       { path: 'lista', component: RegistroEventoComponent },
-      // { path: 'reporte', component: ReporteEventoComponent},
+      { path: 'reporte', component: ReporteEventoComponent},
       { path: '**', redirectTo: ''}
     ]
   }
