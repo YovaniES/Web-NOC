@@ -23,6 +23,12 @@ const routes: Routes = [
         loadChildren: () => import ('./views/pages/evento/evento.module').then((m)=>m.EventoModule),
         canActivate: [ValidarTokenGuard],
       },
+      {
+        path:'mantenimiento',
+        loadChildren: () => import ('./views/pages/mantenimiento/mantenimiento.module').then((m)=>m.MantenimientoModule),
+        canActivate: [ValidarTokenGuard],
+        // data: {rol_menu: [PERMISSION.MENU_MANTENIMIENTO]}
+      },
       {path: '', redirectTo: 'home', pathMatch: 'full'},
       { path:'**', redirectTo:'/error/404' }
     ]
