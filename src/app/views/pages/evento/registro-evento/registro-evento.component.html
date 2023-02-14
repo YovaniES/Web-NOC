@@ -5,7 +5,7 @@
       <!-- BUSCADOR POR FILTRO ---------------------------------------------------------------->
       <div class="card" style="border-radius: 2px; font-weight: 600; padding: 7px">
           <form class="row g-3" [formGroup]="filtroForm">
-            <div class="col-sm-3 cli-form-element">
+            <div class="col-sm-2 cli-form-element">
               <label>Código ticket</label>
               <input
                 type="text"
@@ -13,20 +13,29 @@
                 formControlName="cod_ticket"/>
             </div>
 
+            <div class="col-sm-2 cli-form-element">
+              <label>Estado Ticket</label>
+              <select class="cli-input-white" formControlName="estado_ticket">
+                <option [value]="0" disabled>- Seleccione -</option>
+                <option [value]="estado.id_correlativo" *ngFor="let estado of listEstadoTicket">{{estado.valor_texto_1}}</option>
+              </select>
+            </div>
+
+            <div class="col-sm-2 cli-form-element">
+              <label>Área responsable</label>
+              <select class="cli-input-white" formControlName="area_responsable">
+                <option [value]="0" disabled>- Seleccione -</option>
+                <option [value]="area.id_correlativo" *ngFor="let area of listAreaResponsable">{{area.valor_texto_1}}</option>
+              </select>
+            </div>
+
+
             <div class="col-sm-3 cli-form-element">
               <label>Usuario</label>
               <input
                 type="text"
                 class="form-control cli-input-white"
                 formControlName="usuario"/>
-            </div>
-
-            <div class="col-sm-3 cli-form-element">
-              <label>Área responsable</label>
-              <select class="cli-input-white" formControlName="area_responsable">
-                <option [value]="0" disabled>- Seleccione -</option>
-                <option [value]="area.id_correlativo" *ngFor="let area of listAreaResponsable">{{area.valor_texto_1}}</option>
-              </select>
             </div>
 
             <div class="col-sm-3 cli-form-element">
@@ -40,6 +49,7 @@
                 <mat-date-range-picker #picker></mat-date-range-picker>
               </mat-form-field>
             </div>
+
 
             <div class="cli-form-buttons" style="margin-top: 8px">
               <button

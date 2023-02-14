@@ -38,6 +38,7 @@ export class RegistroEventoComponent implements OnInit {
     this.newFilfroForm();
     this.cargarOBuscarEvento();
     this.getListAreaResponsable();
+    this.getListEstadoTicket();
   }
 
   newFilfroForm(){
@@ -45,6 +46,7 @@ export class RegistroEventoComponent implements OnInit {
       cod_ticket           : [''],
       usuario              : [''],
       area_responsable     : [''],
+      estado_ticket        : [''],
       fecha_registro_inicio: [''],
       fecha_registro_fin   : [''],
     })
@@ -58,6 +60,7 @@ export class RegistroEventoComponent implements OnInit {
       "mapValue": {
           p_cod_ticket         : this.filtroForm.value.cod_ticket,
           p_usuario            : this.filtroForm.value.usuario,
+          p_estado_ticket      : this.filtroForm.value.estado_ticket,
           p_id_area_responsable: this.filtroForm.value.area_responsable,
           inicio               : this.datepipe.transform(this.filtroForm.value.fecha_registro_inicio,"yyyy/MM/dd"),
           fin                  : this.datepipe.transform(this.filtroForm.value.fecha_registro_fin,"yyyy/MM/dd"),
@@ -107,6 +110,17 @@ export class RegistroEventoComponent implements OnInit {
       }
     });
     this.spinner.hide();
+  }
+
+
+  listEstadoTicket: any[] = [];
+  getListEstadoTicket() {
+    let parametro: any[] = [{ queryId: 45 }];
+
+    this.eventoService.getListEstTicket(parametro[0]).subscribe((resp: any) => {
+        this.listEstadoTicket = resp.list;
+        console.log('EST_TICKET', resp);
+      });
   }
 
   listAreaResponsable: any[] = [];
