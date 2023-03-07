@@ -147,7 +147,15 @@
               <td class="w150"> {{ evento.cod_evento }}</td>
               <td >{{ evento.codigo_ticket_generado? evento.codigo_ticket_generado: '-' }}</td>
               <td>{{ evento.tipo_evento | firstCapital }}</td>
-              <td>{{ evento.estado | uppercase }}</td>
+              <td style="min-width: 102px;">
+                <span *ngIf="evento.estado == 'Registrado'"    class="label est-reg">         {{ evento.estado | uppercase }}</span>
+                <span *ngIf="evento.estado == 'Derivado'"      class="label est-derivado">       {{ evento.estado | uppercase }}</span>
+                <span *ngIf="evento.estado == 'En Análisis'"   class="label est-analisis ">        {{ evento.estado | uppercase }}</span>
+                <span *ngIf="evento.estado == 'Cancelado'"     class="label est-cancelado ">  {{ evento.estado | uppercase }}</span>
+                <span *ngIf="evento.estado == 'Identificado'"  class="label est-identificado">{{ evento.estado | uppercase }}</span>
+                <span *ngIf="evento.estado == 'Atendido'"      class="label est-atendido ">   {{ evento.estado | uppercase }}</span>
+              </td>
+
               <td>{{ evento.hora_inicio | uppercase}}</td>
               <td>{{ evento.hora_fin | uppercase}}</td>
               <td>{{ evento.estado_ticket? evento.estado_ticket: '-' }}</td>

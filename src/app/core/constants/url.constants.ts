@@ -4,7 +4,6 @@ let PATH_BACK_NET  = '';
 let PATH_AUDITORIA_AUTH = '';
 switch (ENVIROMENT) {
   case 'DEV':
-    // PATH_AUDITORIA_AUTH = 'http://auditoriaseguridadapi2.indratools.com/aut/seguridad/';
     // PATH_BACK_NET       = 'https://localhost:3061/api/configurador/';
     break;
   case 'QA':

@@ -43,7 +43,6 @@ export class ModalEventoComponent implements OnInit {
 
   ngOnInit(): void {
     this.newForm();
-    this.cargarEventoByID();
     this.getListEstado();
     this.getListNotificaciones();
     this.getlistTipoIncidencia();
@@ -54,11 +53,16 @@ export class ModalEventoComponent implements OnInit {
     this.getlistAplicaciones();
     this.getListAreaResponsable();
     this.getListEstTicket()
-    this.ListaHistoricoCambios(this.DATA_EVENTO);
 
-    console.log('DATA_EVENTO', this.DATA_EVENTO);
-    console.log('DATA_EVEN_ESTADO_TICKET', this.DATA_EVENTO.tipo_evento);
-    console.log('DATA_EVEN_COD_EVENTO', this.DATA_EVENTO.cod_evento);
+    if(this.DATA_EVENTO && this.DATA_EVENTO.idreg){
+      this.cargarEventoByID();
+      this.ListaHistoricoCambios(this.DATA_EVENTO);
+
+      console.log('DATA_EVEN_ESTADO_TICKET', this.DATA_EVENTO.tipo_evento);
+      console.log('DATA_EVENTO', this.DATA_EVENTO);
+      console.log('DATA_EVEN_COD_EVENTO', this.DATA_EVENTO.cod_evento);
+    }
+
     console.log('FECHA_INCIO', moment(new Date()).format('YYYY-MM-DD HH:mm:ss'));
     console.log('HORA_X', formatDate(new Date(), 'hh:mm', 'en-US', ''));
     }
@@ -137,11 +141,6 @@ export class ModalEventoComponent implements OnInit {
           p_hora_inicio           : formValues.h_inicio,
           p_hora_fin              : formValues.h_fin,
           // p_hora_fin              : formatDate(new Date(), 'hh:mm', 'en-US', ''),
-          // p_hora_deteccion        : formatDate(new Date(), 'hh:mm', 'en-US', ''),
-          // p_fecha_inicio          : moment(new Date()).format('YYYY-MM-DD HH:mm:ss'),
-          // p_hora_inicio           : formatDate(new Date(), 'hh:mm', 'en-US', ''),
-          // p_hora_fin              : formatDate(new Date(), 'hh:mm', 'en-US', ''),
-          // "p_fecha_fin"                 : <HTMLInputElement>document.getElementById('ffin') ? (<HTMLInputElement>document.getElementById('ffin')).value :'',
           p_fecha_fin             : formValues.fecha_fin,
           p_hora_notificacion     : formValues.h_notificacion,
           p_modo                  : formValues.modo_notificacion,
@@ -267,7 +266,7 @@ export class ModalEventoComponent implements OnInit {
       this.eventoForm.controls['h_fin'              ].setValue(this.DATA_EVENTO.hora_fin);
       this.eventoForm.controls['ticket_generado'    ].setValue(this.DATA_EVENTO.codigo_ticket_generado);
       this.eventoForm.controls['h_generacion'       ].setValue(this.DATA_EVENTO.hora_generacion);
-      this.eventoForm.controls['estado_ticket'      ].setValue(this.DATA_EVENTO.id_estadoticket);
+      this.eventoForm.controls['estado_ticket'      ].setValue(this.DATA_EVENTO.id_estado_ticket);
       this.eventoForm.controls['area_responsable'   ].setValue(this.DATA_EVENTO.id_area_responsable);
       this.eventoForm.controls['h_solucion'         ].setValue(this.DATA_EVENTO.hora_resolucion);
       this.eventoForm.controls['pbi'                ].setValue(this.DATA_EVENTO.pbi );

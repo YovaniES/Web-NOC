@@ -78,13 +78,42 @@
   width: 190px;
 }
 
-.estado-danger {
-  background-color: #ff727f;
-}
-.estado-info {
-  background-color: #20c997;
+.est-reg {
+  background-color: #bac1c7;
+  padding: 2.5px 10px;
+  color: #fff;
 }
 
+.est-derivado {
+  background-color: #ffd557;
+  padding: 2.5px 14px;
+  color: #fff;
+}
+
+.est-analisis{
+  background-color: #ff4382d4;
+  color: #fff;
+  padding: 2.5px 13px;
+}
+// ff6473eb
+
+.est-cancelado {
+  background-color: #287eff;
+  padding: 2.5px 12px;
+  color: #fff;
+}
+
+.est-identificado {
+  background-color: #00d4ff;
+  padding: 2.5px 14px;
+  color: #fff;
+}
+
+.est-atendido {
+  background-color: #88f5d4;
+  padding: 2.5px 14px;
+  color: #fff;
+}
 
 
 // estilos para el rango de fechas
