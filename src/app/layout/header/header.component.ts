@@ -23,11 +23,13 @@ export class HeaderComponent implements OnInit {
     this.userFullName();
   }
 
+  userRolName: string = '';
   currentUser: string = ''
   userFullName() {
     this.authService.getCurrentUser()
         .subscribe((resp) => {
           this.currentUser = resp.user.nombres + ' '+ resp.user.apellidoPaterno ;
+          this.userRolName = resp.user.rolName
           // console.log('USER-NEW', this.currentUser);
         })
       }
