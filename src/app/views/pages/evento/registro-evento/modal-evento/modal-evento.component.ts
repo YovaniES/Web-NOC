@@ -274,6 +274,7 @@ export class ModalEventoComponent implements OnInit {
       this.eventoForm.controls['motivo_notas'       ].setValue(this.DATA_EVENTO.notas );
       this.eventoForm.controls['comentarios'        ].setValue(this.DATA_EVENTO.comentariosgenerales);
       this.eventoForm.controls['medidas_correctivas'].setValue(this.DATA_EVENTO.medidas_correctivas);
+      this.eventoForm.controls['fecha_resolucion'   ].setValue(this.DATA_EVENTO.fecha_resolucion);
 
       if (this.DATA_EVENTO.f_fin) {
         let fecha_x = this.DATA_EVENTO.f_fin
@@ -293,8 +294,8 @@ export class ModalEventoComponent implements OnInit {
         this.eventoForm.controls['fecha_inicio'].setValue(this.datePipe.transform(new Date(year, month-1, date), 'yyyy-MM-dd'))
       }
 
-      if (this.DATA_EVENTO.f_resolucion) {
-        let fecha_x = this.DATA_EVENTO.f_resolucion
+      if (this.DATA_EVENTO.fecha_resolucion) {
+        let fecha_x = this.DATA_EVENTO.fecha_resolucion
         const str   = fecha_x.split('/');
         const year  = Number(str[2]);
         const month = Number(str[1]);

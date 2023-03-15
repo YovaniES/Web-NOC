@@ -13,6 +13,10 @@
     display: flex;
     flex-direction: row;
 }
+.cli-rol{
+  color: #0d6efd;
+  justify-content: center;
+}
 
 .personname{
 // color: $color-hispam-dark;
@@ -23,11 +27,14 @@
     // text-shadow: 0 1px 3px #0000002a;
 }
 
+<<<<<<< HEAD
 .cli-rol{
   color: #0d6efd;
   justify-content: center;
 }
 
+=======
+>>>>>>> rama-local
 .header-hiddenaside{
     left: 70px;
 }
